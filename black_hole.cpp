@@ -10,16 +10,16 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
-#include <chrono>
 #include <fstream>
 #include <sstream>
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
 using namespace glm;
+using namespace glm;
 using namespace std;
-using Clock = std::chrono::high_resolution_clock;
-
+// using Clock and <chrono> removed because some toolchains can't locate <chrono> system headers reliably;
+// use GLFW's timing API (glfwGetTime) instead where needed.
 // VARS
 double lastPrintTime = 0.0;
 int    framesCount   = 0;
@@ -641,8 +641,8 @@ int main() {
     setupCameraCallbacks(engine.window);
     vector<unsigned char> pixels(engine.WIDTH * engine.HEIGHT * 3);
 
-    auto t0 = Clock::now();
-    lastPrintTime = chrono::duration<double>(t0.time_since_epoch()).count();
+    // Use GLFW timing instead of <chrono>
+    lastPrintTime = glfwGetTime();
 
     double lastTime = glfwGetTime();
     int   renderW  = 800, renderH = 600, numSteps = 80000;
